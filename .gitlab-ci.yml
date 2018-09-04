@@ -1,0 +1,8 @@
+build-master:
+  stage: build
+  script:
+    - make dbuild-cryptos-mkinitfs-x8664
+    - make dbuild-cryptos-mkinitfs-armhf
+    - make dbuild-cryptos-mkinitfs-aarch64
+  only:
+    - master
