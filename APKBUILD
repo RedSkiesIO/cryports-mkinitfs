@@ -2,7 +2,7 @@
 # Maintainer: James Kirby <james.kirby@atlascity.com>
 pkgname=mkinitfs
 pkgver=3.3.420
-_ver=${3.3.0%_git*}
+_ver=3.3.0
 pkgrel=420
 pkgdesc="Tool to generate initramfs images for CryptOS"
 url="https://git.alpinelinux.org/cgit/mkinitfs"
