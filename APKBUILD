@@ -1,26 +1,32 @@
 # Contributor: James Kirby <james.kirby@atlascity.com>
 # Maintainer: James Kirby <james.kirby@atlascity.com>
 pkgname=mkinitfs
-pkgver=3.7.0
+pkgver=3.3.0
 _ver=${pkgver%_git*}
 pkgrel=420
 pkgdesc="Tool to generate initramfs images for CryptOS"
 url="https://git.alpinelinux.org/cgit/mkinitfs"
 arch="all"
-license="GPL2"
+license="GPL-2.0"
+# currently we do not ship any testsuite
+options="!check"
 makedepends_build=""
 makedepends_host="busybox kmod-dev util-linux-dev cryptsetup-dev linux-headers"
 makedepends="$makedepends_build $makedepends_host"
-#opennode-base opennnode-setup-gui
-depends="busybox apk-tools>=2.8.2 lddtree>=1.25"
+depends="busybox>=1.28.2-r1 apk-tools>=2.9.1 lddtree>=1.25"
 install="$pkgname.pre-upgrade $pkgname.post-install $pkgname.post-upgrade"
 triggers="$pkgname.trigger=/usr/share/kernel/*"
 source="http://dev.alpinelinux.org/archive/$pkgname/$pkgname-$_ver.tar.xz
-	0001-skip-hooks-on-diskless-install.patch
-	0001-initramfs-do-not-relocate-mountpoint-for-netboot.patch
-	0001-features-add-virtio_net-to-network-modules.patch
-	0001-features-virtio_net-depends-on-virtio_pci.patch
+	0001-features-add-vc4-to-kms-for-rpi.patch
+	0001-init-use-swclock-when-no-rtc-is-found.patch
+
+	0001-Add-support-for-signed-modloop-images.patch
+	0002-Fix-network-setup-when-only-ip-is-explicitly-given.patch
+	0003-Add-README-to-help-with-manual-building.patch
+	0004-Fix-installation-path-customisation.patch
+	0005-Reuse-kernel-side-configuration-for-console-devices.patch
 	"
+
 builddir="$srcdir/$pkgname-$_ver"
 
 build() {
@@ -33,8 +39,11 @@ package() {
 	make install DESTDIR="$pkgdir"
 }
 
-sha512sums="906bfbce677d4ece9c9fea7b2a529121740bc9d96ea011be083303cc5c56162f09271b0a673e9e335234ccf2f293109bda1eda333698a95357d0772c86f498af  mkinitfs-3.2.0.tar.xz
-f5c9b21e53c663dac1b8f33f929dbe067492f0dc1bd5ef5310ef531033f31fc3fa0b6de6dce03cecaf90b8ed47b278d0f1f7c64dbbeede7621c895ee3ea79864  0001-skip-hooks-on-diskless-install.patch
-4387357cfcd3441c5d8777e42c0e62a73fa446aacd2faac081947afc39bdd8fb91e12b34f3b69a6827bd7d0705f54514b77c0ff4c38ee0d70553050117c42576  0001-initramfs-do-not-relocate-mountpoint-for-netboot.patch
-530a33638e7ba1faceed9a5cb0a2e08bec5d29d160a99730b7a2fb6c98f93a511908df8ab14cc47884397c9affee899a23896aab1c6c9073015ce077cc16552f  0001-features-add-virtio_net-to-network-modules.patch
-e5a6a25ea51b0ef16f525af20f8e44e64f5c4bb56f46b220151fc03cfa2c530ec55e2755a5dca766f9dad467815b5949bd22e029bcda89fbcef0d40bb3fd1a0f  0001-features-virtio_net-depends-on-virtio_pci.patch"
+sha512sums="dbbb97fda1c2febe5fc226072232ffeb69c03fb9173c0434d5cecc6e4fda2e62a1f725a3083d1bedc2397cbf3b95ce28628788d70b4440902ee3648db738c2c9  mkinitfs-3.3.0.tar.xz
+f1f5de4b5825ab221f7f929bf36e121217f34f36cfdec153ceb829f0fad6f63ea057239aa84690792f6d701d350d2dca375fcf91e05862394f8aaa0181a1ed58  0001-features-add-vc4-to-kms-for-rpi.patch
+8b915a381f6cf6d8a751ed89b43004ce3e4861556c9753c7f05cb8fa561b744acd51cda0a7c6228cd916e350ee493cc2fa8818593faa2d0eb2d06f400c571154  0001-init-use-swclock-when-no-rtc-is-found.patch
+cbe8cf7980ab25be8725b4c9791a7801367865e2b6d71eae428c276b329d5b2d166c2faaedd64bb835d4a69a71440928e087a772854a147893f393006a39b0dc  0001-Add-support-for-signed-modloop-images.patch
+5873124ae009e51a7d197fe8c56d38f34bad188d97f3956c9ab6358ca3106dd0dc19c96d76d8fef2b5e4d1ae3d054b949451cd6893bb9e820631dd0f114ef4a9  0002-Fix-network-setup-when-only-ip-is-explicitly-given.patch
+4fecf7eb9230702e06e9af77cedaf4ab3bd45dd5b2c298bb1d0df5f6901a3268841e0a2aac28cd5fb9841d98bc96d123f59ed67df9c5f6d30432da8a15851254  0003-Add-README-to-help-with-manual-building.patch
+f24d047f179a5af4ffccc50dc672acade7eb1ad0f3262750682cfb0ef7efd2016256dbc49c4f8460ca3414ccc570746275f237e937805ad61fe4b2d4aa2b2aa7  0004-Fix-installation-path-customisation.patch
+1955890d9c74ec2d8586928ec1f2d34e266a3eb9663034e0c60f07c52a8a29dae13bfed06dd16a083477ec3703997d52f7a6901c9b13b6b4d6126fb89198ac21  0005-Reuse-kernel-side-configuration-for-console-devices.patch"
