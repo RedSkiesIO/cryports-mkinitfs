@@ -1,7 +1,7 @@
 # Contributor: James Kirby <james.kirby@atlascity.com>
 # Maintainer: James Kirby <james.kirby@atlascity.com>
 pkgname=mkinitfs
-pkgver=3.3.0
+pkgver=3.3.420
 _ver=${pkgver%_git*}
 pkgrel=420
 pkgdesc="Tool to generate initramfs images for CryptOS"
